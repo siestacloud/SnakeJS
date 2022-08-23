@@ -1,0 +1,43 @@
+.wrapper {
+    min-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template: minmax(80px, auto) 1fr minmax(80px, auto) / 1fr;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+
+/* head block */
+.header {
+    grid-area: header;
+    text-align: center;
+}
+
+
+/* main block */
+.main {
+    grid-area: main;
+}
+
+
+
+
+/* footer block */
+.footer {
+    grid-area: footer;
+    display: grid;
+    grid-template: 1fr / 1fr minmax(auto, 200px) minmax(auto, 800px) 1fr;
+    align-items: center;
+}
+
+.footer__copy {
+    grid-column: 2/3;
+}
+
+.footer__text {
+    grid-column: 3/4;
+    text-align: right;
+}

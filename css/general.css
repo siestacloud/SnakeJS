@@ -1,0 +1,105 @@
+.wrapper {
+    font-family: sans-serif, "Segoe UI Symbol";
+    background: linear-gradient(11deg, #101214 54%, #525ddd 144%);
+}
+
+
+/* header block */
+.mod-font {
+    text-transform: uppercase;
+    line-height: 1;
+    font-weight: normal;
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    color: aliceblue;
+}
+
+.logo {
+    margin: 12px 0px;
+
+}
+
+.logo img{
+    
+    width: 100px;
+    height: 100px;
+}
+
+.menu__item {
+    margin: 8px 0px;
+}
+
+
+.header ul {
+}
+
+.header ul li {
+    transition: 0.5s;
+}
+
+.header ul li a {
+    /* display: block; */
+    position: relative;
+    padding: 5px;
+    color: #fff;
+    transition: 0.5s;
+}
+
+
+.header ul:hover li a {
+    transform: scale(1.2);
+    opacity: .2;
+    filter: blur(5px);
+}
+
+.header ul li a:hover {
+    transform: scale(1.6);
+    opacity: 1;
+    filter: blur(0);
+}
+
+.header ul li a:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #0a93f4 0%, #ab05ff 60%);
+    border-radius: 5px;
+    transition: transform 0.5s;
+    transform-origin: right;
+    transform: scaleX(0);
+    z-index: -1;
+}
+
+
+.header ul li a:hover:before {
+    transition: transform 0.5s;
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+
+/* main block */
+
+
+
+/* footer block */
+.footer {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    font-weight: normal;
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+}
+
+.footer__copy {
+    color: #696969;
+}
+
+.footer__text {
+    color: #696969;
+}
+

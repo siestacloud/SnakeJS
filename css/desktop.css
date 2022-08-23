@@ -1,11 +1,24 @@
 @media screen and (min-width: 750px) {
+    .header {
+        display: grid;
+        grid-template: 1fr / 1fr minmax(auto, 200px) minmax(auto, 800px) 1fr;
+        align-items: center;
+    }
 
-}
+    .logo {
+        grid-column: 2/3;
+    }
 
-@media screen and (min-width: 830px) {
+    .menu {
+        grid-column: 3/4;
+        display: flex;
+        justify-content: space-around;
+    }
 
-}
 
-@media screen and (min-width: 1400px) {
+
+    .main {
+    }
+
 
 }
