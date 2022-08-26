@@ -140,72 +140,89 @@ class DOMControl {
 }
 
 
+class ClassWithPrivateField {
+    #privateField
+
+    constructor() {
+        this.#privateField = 42
+        //   this.#randomField = 666 // Syntax error
+    }
+}
+
+
 // управляет высокоуровневой логикой
 // управляет классами змейка и яблоко
 // передает данные для отображения классу DOMControl
 class GameControl {
-    constructor(dom, apple, snake) {
-        this.DOM = new DOMControl()
-        this.Apple = new Apple()
-        this.Snake = new Snake()
-        this.currentPoints
-        this.topPoints
+    #privateDOM
+    #privateApple
+    #privateSnake
+    #privateTopPoint
+    #privateCurrentPoint
+
+    constructor() {
+        this.#privateDOM
+        this.#privateApple
+        this.#privateSnake
+        this.#privateTopPoint
+        this.#privateCurrentPoint
     }
+
+    setPrivateDOM(dom) { this.#privateDOM = dom; }
+    setPrivateSnake(snake) { this.#privateSnake = snake; }
+    setPrivateApple(apple) { this.#privateApple = apple; }
+
     // запуск игры
-    StartGame() {
+    PublicStart() {
         // загрузить из localstorage topPoints
-        this.loadPoints()
-        this.DOM.DisplayTopResult(this.topPoints)
+        this.#privateLoadPoints()
+        this.#privateDOM.DisplayTopResult(this.#privateTopPoint)
 
-        console.log("===============   ", this.topPoints)
+        let callback = () => {
+            // меняю стиль первой кнопки в меню
+            this.#privateDOM.controlMenu("m-color-green", "m-color-yellow", "stop game")
 
-        let set = () => {
-            this.DOM.controlMenu("m-color-green", "m-color-yellow", "stop game")
+            this.#privateCurrentPoint = 0
+            this.#privateLoadPoints()
 
-            this.currentPoints = 0
-            this.loadPoints()
+            this.#privateDOM.DisplayCurrentResult(this.#privateCurrentPoint)
+            this.#privateDOM.DisplayTopResult(this.#privateTopPoint)
 
-            console.log("===============   ", this.topPoints)
+            this.#privateSnake.body = []
+            this.#privateApple.body = []
 
-            this.DOM.DisplayCurrentResult(this.currentPoints)
-            this.DOM.DisplayTopResult(this.topPoints)
-
-
-            this.Snake.body = []
-            this.Apple.body = []
-
-            this.Snake.SetPosition() // позиционирую змейку  
-            this.Apple.SetPosition() // позиционирую яблоко 
+            this.#privateSnake.SetPosition() // позиционирую змейку  
+            this.#privateApple.SetPosition() // позиционирую яблоко 
 
             // определяю координаты (коорд яблока не должны совпасть с коорд змейки)
-            for (; ;) { if (this.checkPosition()) { break } }
+            for (; ;) { if (this.#privateCheckPosition()) { break } }
             // отображаю змейку и яблоко в DOM
-            this.DOM.Display(this.Apple.body, "j-apple-active")
-            this.DOM.Display(this.Snake.body, "j-snake-active")
+            this.#privateDOM.Display(this.#privateSnake.body, "j-snake-active")
+            this.#privateDOM.Display(this.#privateApple.body, "j-apple-active")
             // запускаю змейку
-            this.initSnakeAutoMoving(500, set)
+            this.#privateInitSnakeAutoMoving(500, callback)
             // удаляю обработчик с кнопки запуска и игрового поля (в процессе игры повторный запуск не допускается)
-            this.DOM.RemoveStartBtn(set)
+            this.#privateDOM.RemoveStartBtn(callback)
+            // !!!!!!!!! повесить обработчик остановки змейки !!!!!!!!!
         }
 
         // передаю логику обработчика на событие click кнопки
-        this.DOM.InitStartBtn(set)
+        this.#privateDOM.InitStartBtn(callback)
         // передаю логику обработчика на событие нажатия клавиши
-        this.DOM.InitKey('keydown', (event) => {
-            console.log('Нажата клавиша ' + event.key + typeof event.key)
+        this.#privateDOM.InitKey('keydown', (event) => {
             switch (event.key) {
-                case 'ArrowUp': this.Snake.direction != `ArrowDown` ? this.Snake.direction = event.key : console.log("ok"); break;
-                case 'ArrowDown': this.Snake.direction != `ArrowUp` ? this.Snake.direction = event.key : console.log(); break;
-                case 'ArrowLeft': this.Snake.direction != `ArrowRight` ? this.Snake.direction = event.key : console.log(); break;
-                case 'ArrowRight': this.Snake.direction != `ArrowLeft` ? this.Snake.direction = event.key : console.log(); break;
+                case 'ArrowUp': this.#privateSnake.direction != `ArrowDown` ? this.#privateSnake.direction = event.key : console.log("not allow"); break;
+                case 'ArrowDown': this.#privateSnake.direction != `ArrowUp` ? this.#privateSnake.direction = event.key : console.log("not allow"); break;
+                case 'ArrowLeft': this.#privateSnake.direction != `ArrowRight` ? this.#privateSnake.direction = event.key : console.log("not allow"); break;
+                case 'ArrowRight': this.#privateSnake.direction != `ArrowLeft` ? this.#privateSnake.direction = event.key : console.log("not allow"); break;
             }
         })
     }
-
-    checkPosition() {
-        for (const key in this.Snake.body) {
-            if (JSON.stringify(this.Snake.body[key]) === JSON.stringify(this.Apple.body[0])) {
-                this.Apple.SetPosition() // повторно позиционирую яблоко если совпали координаты со змейкой
+    // Проверяю координаты яблока
+    #privateCheckPosition() {
+        for (const key in this.#privateSnake.body) {
+            if (JSON.stringify(this.#privateSnake.body[key]) === JSON.stringify(this.#privateApple.body[0])) {
+                this.#privateApple.SetPosition() // повторно позиционирую яблоко если совпали координаты со змейкой
                 return false
             }
         }
@@ -213,63 +230,61 @@ class GameControl {
     }
 
     // определяю основную логику игры и движения змейки
-    initSnakeAutoMoving(interval, callback) {
+    #privateInitSnakeAutoMoving(interval, callback) {
         let stop = setInterval(() => {
-            this.Snake.Moving();
+            this.#privateSnake.Moving();
             // координаты змейки и яблока совпали - у яблока новая позиция - счетчик очков увеличиавется
-            if (this.Snake.body[0].x == this.Apple.body[0].x && this.Snake.body[0].y == this.Apple.body[0].y) {
-                this.Apple.SetPosition() // позиционирую яблоко 
-                for (; ;) { if (this.checkPosition()) { break } }
-
-                this.currentPoints++
-                this.DOM.DisplayCurrentResult(this.currentPoints)
-
-
-                this.DOM.Display(this.Apple.body, "j-apple-active")
-                this.Snake.increase()
+            if (this.#privateSnake.body[0].x == this.#privateApple.body[0].x && this.#privateSnake.body[0].y == this.#privateApple.body[0].y) {
+                this.#privateApple.SetPosition() // позиционирую яблоко 
+                for (; ;) { if (this.#privateCheckPosition()) { break } }
+                this.#privateCurrentPoint++
+                this.#privateDOM.DisplayCurrentResult(this.#privateCurrentPoint)
+                this.#privateDOM.Display(this.#privateApple.body, "j-apple-active")
+                this.#privateSnake.increase()
             }
             // если змейка зашла на себя - конец игры
-            for (const key in this.Snake.body) {
-                if (JSON.stringify(this.Snake.body[0]) === JSON.stringify(this.Snake.body[+key + 1])) {
+            for (const key in this.#privateSnake.body) {
+                if (JSON.stringify(this.#privateSnake.body[0]) === JSON.stringify(this.#privateSnake.body[+key + 1])) {
                     clearInterval(stop)
-
                     // передаю логику обработчика на событие click кнопки
-                    this.DOM.InitStartBtn(callback)
-                    this.DOM.controlMenu("m-color-yellow", "m-color-green", "new game")
-
-                    this.currentPoints > this.topPoints ? this.savePoints(this.currentPoints) : console.log();
-
-
+                    this.#privateDOM.InitStartBtn(callback)
+                    this.#privateDOM.controlMenu("m-color-yellow", "m-color-green", "new game")
+                    this.#privateCurrentPoint > this.#privateTopPoint ? this.#privateSavePoints(this.#privateCurrentPoint) : console.log();
                 }
                 console.log("game continue")
             }
-
             // отображаю змейку по новым координатам
-            this.DOM.Display(this.Snake.body, "j-snake-active")
+            this.#privateDOM.Display(this.#privateSnake.body, "j-snake-active")
         }, interval);
     }
 
-    savePoints(v) {
+    #privateSavePoints(v) {
         localStorage.setItem('topPoints', v);
     }
-    loadPoints() {
+    #privateLoadPoints() {
         let storagePoints = localStorage.getItem('topPoints')
-        console.log("storagePoints   ", storagePoints);
-        storagePoints ? this.topPoints = storagePoints : this.topPoints = 0;
+        storagePoints ? this.#privateTopPoint = storagePoints : this.#privateTopPoint = 0;
     }
 }
 
 
-// InitGame реализует фенкционал игры
+// InitGame реализует функционал игры
 function InitGame() {
-    snake =
-        apple =
-        // console.log(apple.SetPosition());
-        // Инициализация управляющего обьекта
-        DOMManager =
-        // Инициализация управляющего обьекта
-        GameManager = new GameControl(DOMManager, apple, snake)
-    GameManager.StartGame()
+
+    // Инициализация основных обьектов игры
+    const domControl = new DOMControl()
+    const apple = new Apple()
+    const snake = new Snake()
+
+    // Инициализация управляющего обьекта
+    const game = new GameControl()
+
+    // передаю основные обьекты игры
+    game.setPrivateDOM(domControl)
+    game.setPrivateApple(apple)
+    game.setPrivateSnake(snake)
+
+    game.PublicStart()
 }
 // запуск
 document.addEventListener("DOMContentLoaded", InitGame);
