@@ -9,33 +9,144 @@
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/phone.css">
     <link rel="stylesheet" href="css/desktop.css">
-    <link rel="stylesheet" href="css/modificators.css">
+    <link rel="stylesheet" href="css/modificator.css">
     <title>AboutMe</title>
 </head>
 
 <body>
-    <div class="wrapper mod-light">
-
-        <header class="header m-margin-hor mod-font">
-            <article class="logo">
+    <div class="wrapper">
+        <header class="header m-margin-hor">
+            <article class="logo ">
                 <img src="img/icon.png" alt="" srcset="">
             </article>
-            <ul class="menu">
-                <li class="menu__item"><a href="#">Home</a></li>
-                <li class="menu__item"><a href="#">About</a></li>
-                <li class="menu__item"><a href="#">New Game</a></li>
-                <li class="menu__item"><a href="#">Show results</a></li>
-                <li class="menu__item"><a href="#">Contact</a></li>
-            </ul>
+            <menu class="menu">
+                <button class="mod-button m-color-green mod-button-animate j-click-start j-menu-item-1 ">start
+                    game</button>
+                <button class="mod-button m-color-blue mod-button-animate">
+                    <span>show results</span>
+                    <div class="tooltip j-err-result">
+                        <p class="j-result-current">now:</p>
+                        <p class="j-result-top">top:</p>
+                    </div>
+                </button>
+                <button class="mod-button m-color-blue mod-button-animate">about</button>
+                <button class="mod-button m-color-blue mod-button-animate">contact</button>
+            </menu>
         </header>
-        <main class="main mod-font">
-            <section class="field"></section>
+        <main class="main">
+            <!-- игровая сетка -->
+            <section class="wrapper__grid ">
+                <ul class="grid j-game-field j-click-start" tabindex="-1">
+                    <li class="item " data-x="0" data-y="9"></li>
+                    <li class="item" data-x="1" data-y="9"></li>
+                    <li class="item" data-x="2" data-y="9"></li>
+                    <li class="item" data-x="3" data-y="9"></li>
+                    <li class="item" data-x="4" data-y="9"></li>
+                    <li class="item" data-x="5" data-y="9"></li>
+                    <li class="item" data-x="6" data-y="9"></li>
+                    <li class="item" data-x="7" data-y="9"></li>
+                    <li class="item" data-x="8" data-y="9"></li>
+                    <li class="item" data-x="9" data-y="9"></li>
+                    <li class="item" data-x="0" data-y="8"></li>
+                    <li class="item" data-x="1" data-y="8"></li>
+                    <li class="item" data-x="2" data-y="8"></li>
+                    <li class="item" data-x="3" data-y="8"></li>
+                    <li class="item" data-x="4" data-y="8"></li>
+                    <li class="item" data-x="5" data-y="8"></li>
+                    <li class="item" data-x="6" data-y="8"></li>
+                    <li class="item" data-x="7" data-y="8"></li>
+                    <li class="item" data-x="8" data-y="8"></li>
+                    <li class="item" data-x="9" data-y="8"></li>
+                    <li class="item" data-x="0" data-y="7"></li>
+                    <li class="item" data-x="1" data-y="7"></li>
+                    <li class="item" data-x="2" data-y="7"></li>
+                    <li class="item" data-x="3" data-y="7"></li>
+                    <li class="item" data-x="4" data-y="7"></li>
+                    <li class="item" data-x="5" data-y="7"></li>
+                    <li class="item" data-x="6" data-y="7"></li>
+                    <li class="item" data-x="7" data-y="7"></li>
+                    <li class="item" data-x="8" data-y="7"></li>
+                    <li class="item" data-x="9" data-y="7"></li>
+                    <li class="item" data-x="0" data-y="6"></li>
+                    <li class="item" data-x="1" data-y="6"></li>
+                    <li class="item" data-x="2" data-y="6"></li>
+                    <li class="item" data-x="3" data-y="6"></li>
+                    <li class="item" data-x="4" data-y="6"></li>
+                    <li class="item" data-x="5" data-y="6"></li>
+                    <li class="item" data-x="6" data-y="6"></li>
+                    <li class="item" data-x="7" data-y="6"></li>
+                    <li class="item" data-x="8" data-y="6"></li>
+                    <li class="item" data-x="9" data-y="6"></li>
+                    <li class="item" data-x="0" data-y="5"></li>
+                    <li class="item" data-x="1" data-y="5"></li>
+                    <li class="item" data-x="2" data-y="5"></li>
+                    <li class="item" data-x="3" data-y="5"></li>
+                    <li class="item" data-x="4" data-y="5"></li>
+                    <li class="item" data-x="5" data-y="5"></li>
+                    <li class="item" data-x="6" data-y="5"></li>
+                    <li class="item" data-x="7" data-y="5"></li>
+                    <li class="item" data-x="8" data-y="5"></li>
+                    <li class="item" data-x="9" data-y="5"></li>
+                    <li class="item" data-x="0" data-y="4"></li>
+                    <li class="item" data-x="1" data-y="4"></li>
+                    <li class="item" data-x="2" data-y="4"></li>
+                    <li class="item" data-x="3" data-y="4"></li>
+                    <li class="item" data-x="4" data-y="4"></li>
+                    <li class="item" data-x="5" data-y="4"></li>
+                    <li class="item" data-x="6" data-y="4"></li>
+                    <li class="item" data-x="7" data-y="4"></li>
+                    <li class="item" data-x="8" data-y="4"></li>
+                    <li class="item" data-x="9" data-y="4"></li>
+                    <li class="item" data-x="0" data-y="3"></li>
+                    <li class="item" data-x="1" data-y="3"></li>
+                    <li class="item" data-x="2" data-y="3"></li>
+                    <li class="item" data-x="3" data-y="3"></li>
+                    <li class="item" data-x="4" data-y="3"></li>
+                    <li class="item" data-x="5" data-y="3"></li>
+                    <li class="item" data-x="6" data-y="3"></li>
+                    <li class="item" data-x="7" data-y="3"></li>
+                    <li class="item" data-x="8" data-y="3"></li>
+                    <li class="item" data-x="9" data-y="3"></li>
+                    <li class="item" data-x="0" data-y="2"></li>
+                    <li class="item" data-x="1" data-y="2"></li>
+                    <li class="item" data-x="2" data-y="2"></li>
+                    <li class="item" data-x="3" data-y="2"></li>
+                    <li class="item" data-x="4" data-y="2"></li>
+                    <li class="item" data-x="5" data-y="2"></li>
+                    <li class="item" data-x="6" data-y="2"></li>
+                    <li class="item" data-x="7" data-y="2"></li>
+                    <li class="item" data-x="8" data-y="2"></li>
+                    <li class="item" data-x="9" data-y="2"></li>
+                    <li class="item" data-x="0" data-y="1"></li>
+                    <li class="item" data-x="1" data-y="1"></li>
+                    <li class="item" data-x="2" data-y="1"></li>
+                    <li class="item" data-x="3" data-y="1"></li>
+                    <li class="item" data-x="4" data-y="1"></li>
+                    <li class="item" data-x="5" data-y="1"></li>
+                    <li class="item" data-x="6" data-y="1"></li>
+                    <li class="item" data-x="7" data-y="1"></li>
+                    <li class="item" data-x="8" data-y="1"></li>
+                    <li class="item" data-x="9" data-y="1"></li>
+                    <li class="item" data-x="0" data-y="0"></li>
+                    <li class="item" data-x="1" data-y="0"></li>
+                    <li class="item" data-x="2" data-y="0"></li>
+                    <li class="item" data-x="3" data-y="0"></li>
+                    <li class="item" data-x="4" data-y="0"></li>
+                    <li class="item" data-x="5" data-y="0"></li>
+                    <li class="item" data-x="6" data-y="0"></li>
+                    <li class="item" data-x="7" data-y="0"></li>
+                    <li class="item" data-x="8" data-y="0"></li>
+                    <li class="item" data-x="9" data-y="0"></li>
+
+                </ul>
+            </section>
+
         </main>
         <footer class="footer m-margin-hor">
             <div class="footer__copy">Copy 2022</div>
             <div class="footer__text">Aura | enterprise edition</div>
         </footer>
-        <script src="js/main.js"></script>
+        <script src="js/app.js"></script>
     </div>
 
 </body>

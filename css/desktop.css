@@ -1,4 +1,36 @@
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 350px) {
+
+    /* main block */
+
+
+    .wrapper__grid {
+        width: 320px;
+        height: 320px;
+        padding: 5px;
+    }
+
+    .grid {
+        display: grid;
+        gap: 1px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(10, 30px);
+        grid-template-rows: repeat(10, 30px);
+    }
+
+
+    .sidebar__item {}
+
+}
+
+
+@media screen and (min-width: 860px) {
+
+    menu{
+        flex-direction: row;
+    }
+
     .header {
         display: grid;
         grid-template: 1fr / 1fr minmax(auto, 200px) minmax(auto, 800px) 1fr;
@@ -16,5 +48,17 @@
     }
 
 
+    .sidebar__item {
+        width: 150px;
+        margin-top: 0px;
+    }
+
+    .main {
+        flex-direction: row-reverse;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 25px;
+
+    }
 
 }

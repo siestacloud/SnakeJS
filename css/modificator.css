@@ -2,3 +2,15 @@
     margin: 0px 15px;
 }
 
+.m-color-yellow:before {
+    background: linear-gradient(45deg, #F78FAD 0%, #FDEB82 60%);
+
+}
+
+.m-color-green:before{
+    background: linear-gradient(45deg, #41C7AF 0%, #54E38E 60%);
+}
+
+.m-color-blue:before{
+    background: linear-gradient(45deg, #0a93f4 0%, #ab05ff 60%);
+}
