@@ -80,7 +80,7 @@ class Snake extends Cell {
         }
     }
 
-    //локика увеличения длины змейки
+    //логика увеличения длины змейки
     PublicIncrease() {
         this.#privateBody.push(this.#privateBody[this.#privateBody.length - 1])
     }
@@ -121,21 +121,21 @@ class DOMControl {
     #privateRedBorder
     #privateMenu
     constructor() {
-        //Поиск элементов в DOM
         this.#privateCurrentResultField // блок c текущим результатом
         this.#privateTopResultField // блок с лучшим результатом
-        this.#privateGameField
+        this.#privateGameField 
         this.#privateStartBtn // блок с кнопкой
-        this.#privateRedBorder
+        this.#privateRedBorder 
         this.#privateMenu
     }
-
+    
+    //Поиск элементов в DOM
     setCurrentResultField() { this.#privateCurrentResultField = document.querySelector(".j-result-current") }
     setTopResultField() { this.#privateTopResultField = document.querySelector(".j-result-top") }
-    setGameField() { this.#privateGameField = document.querySelector(".j-game-field") }
     setStartBtn() { this.#privateStartBtn = document.querySelectorAll(".j-click-start") }
-    setMenu() { this.#privateMenu = document.querySelector(".menu") }
     setRedBorder() { this.#privateRedBorder = document.querySelector(".wrapper__grid") }
+    setGameField() { this.#privateGameField = document.querySelector(".j-game-field") }
+    setMenu() { this.#privateMenu = document.querySelector(".menu") }
 
 
     // Вешаю обработчик на кнопку старт
@@ -171,7 +171,9 @@ class DOMControl {
     DisplayRedBorder() {
         this.#privateRedBorder.classList.add("m-red-border")
     }
+
     RemoveRedBorder() {
+        // !! убрать в отдельный приватный метод..
         this.#privateGameField.classList.remove("j-grid-easy")
         this.#privateGameField.classList.remove("j-grid-medium")
         this.#privateGameField.classList.remove("j-grid-hard")
@@ -179,9 +181,7 @@ class DOMControl {
     }
 
     CheckRedBorder() { return this.#privateRedBorder.classList.contains("m-red-border") }
-
-
-
+    
     DisplayGameField(className, v) {
         console.log(v);
         this.#privateGameField.querySelectorAll(".item").forEach(item => { item.remove() })
@@ -196,9 +196,7 @@ class DOMControl {
             x = 0
             y--
         }
-
         this.#privateGameField.classList.add(className);
-
     }
 }
 
@@ -269,8 +267,6 @@ class GameControl {
                             break;
                     }
                 }
-
-
             }
 
 
@@ -324,7 +320,7 @@ class GameControl {
         return true
     }
 
-    // определяю основную логику игры и движения змейки
+    // Определяю основную логику игры и движения змейки
     #privateInitSnakeAutoMoving(interval, callback) {
         let stop = setInterval(() => {
             this.#privateSnake.PublicMoving(this.#privateGameField.getPrivateSize() - 1);
@@ -367,6 +363,8 @@ class GameControl {
         }, interval);
     }
 
+
+    // Логика сохранения и лучшего результата из localStorage
     #privateSavePoints(v) {
         localStorage.setItem('topPoints', v);
     }
@@ -390,7 +388,7 @@ function InitGame() {
     domControl.setMenu()
 
     const gameField = new GameFiled()
-    gameField.setPrivateSize(10)
+    gameField.setPrivateSize(10) // изначальный размер поля 10х10 (далее меняется пользователем)
 
     const apple = new Apple()
     const snake = new Snake()
