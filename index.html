@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/phone.css">
     <link rel="stylesheet" href="css/desktop.css">
     <link rel="stylesheet" href="css/modificator.css">
-    <title>AboutMe</title>
+    <title>Snake JS</title>
 </head>
 
 <body>
@@ -24,19 +24,28 @@
                     game</button>
                 <button class="mod-button m-color-blue mod-button-animate">
                     <span>show results</span>
-                    <div class="tooltip j-err-result">
+                    <div class="tooltip m-pos-result">
                         <p class="j-result-current">now:</p>
                         <p class="j-result-top">top:</p>
                     </div>
                 </button>
-                <button class="mod-button m-color-blue mod-button-animate">about</button>
+                <button class="mod-button m-color-blue mod-button-animate">
+                    <span>level</span>
+                    <div class="tooltip m-position m-pos-setting">
+                        <input class="custom-radio" name="level" type="radio" id="color-green" value="easy" checked="checked">
+                        <label for="color-green">easy</label>
+                        <input class="custom-radio" name="level" type="radio" id="color-yellow" value="medium">
+                        <label for="color-yellow">medium</label>
+                        <input class="custom-radio" name="level" type="radio" id="color-red" value="hard">
+                        <label for="color-red">hard</label>
+                </button>
                 <button class="mod-button m-color-blue mod-button-animate">contact</button>
             </menu>
         </header>
         <main class="main">
             <!-- игровая сетка -->
             <section class="wrapper__grid ">
-                <ul class="grid j-game-field j-click-start" tabindex="-1">
+                <ul class="j-grid-easy j-game-field j-click-start " tabindex="-1">
                     <li class="item " data-x="0" data-y="9"></li>
                     <li class="item" data-x="1" data-y="9"></li>
                     <li class="item" data-x="2" data-y="9"></li>
@@ -140,11 +149,10 @@
 
                 </ul>
             </section>
-
         </main>
         <footer class="footer m-margin-hor">
             <div class="footer__copy">Copy 2022</div>
-            <div class="footer__text">Aura | enterprise edition</div>
+            <div class="footer__text">gradient snake | by sisoev ps</div>
         </footer>
         <script src="js/app.js"></script>
     </div>

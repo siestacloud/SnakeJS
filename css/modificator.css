@@ -1,16 +1,78 @@
-.m-margin-hor{
+.j-apple-active {
+    background-color: red;
+    border-radius: 10px;
+
+}
+
+.j-snake-active {
+    background-color: rgb(47, 255, 220);
+}
+
+
+
+.j-grid-easy {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
+}
+
+.j-grid-medium {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(12, 30px);
+    grid-template-rows: repeat(12, 30px);
+}
+
+.j-grid-hard {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(15, 30px);
+    grid-template-rows: repeat(15, 30px);
+}
+
+.m-margin-hor {
     margin: 0px 15px;
 }
 
 .m-color-yellow:before {
     background: linear-gradient(45deg, #F78FAD 0%, #FDEB82 60%);
-
 }
 
-.m-color-green:before{
+.m-color-green:before {
     background: linear-gradient(45deg, #41C7AF 0%, #54E38E 60%);
 }
 
-.m-color-blue:before{
+.m-color-blue:before {
     background: linear-gradient(45deg, #0a93f4 0%, #ab05ff 60%);
 }
+
+
+.m-red-border {
+    padding: 0px;
+    border: 3px solid rgb(255, 0, 0);
+}
+
+
+
+.m-pos-setting{
+right: -65px;
+}
+
+.m-pos-result{
+right: 42px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

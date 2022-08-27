@@ -1,35 +1,5 @@
-@media screen and (min-width: 350px) {
-
-    /* main block */
-
-
-    .wrapper__grid {
-        width: 320px;
-        height: 320px;
-        padding: 5px;
-    }
-
-    .grid {
-        display: grid;
-        gap: 1px;
-    }
-
-    .grid {
-        grid-template-columns: repeat(10, 30px);
-        grid-template-rows: repeat(10, 30px);
-    }
-
-
-    .sidebar__item {}
-
-}
-
 
 @media screen and (min-width: 860px) {
-
-    menu{
-        flex-direction: row;
-    }
 
     .header {
         display: grid;
@@ -43,10 +13,9 @@
 
     .menu {
         grid-column: 3/4;
-        display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        flex-direction: row;
     }
-
 
     .sidebar__item {
         width: 150px;
@@ -54,11 +23,8 @@
     }
 
     .main {
-        flex-direction: row-reverse;
+        flex-direction: row;
         align-items: flex-start;
         justify-content: center;
-        gap: 25px;
-
     }
-
 }

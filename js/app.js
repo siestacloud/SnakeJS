@@ -1,7 +1,6 @@
 
 class Cell {
-    PublicSetPosition() { throw new Error("setPosition method shoud be implemented") }
-
+    PublicSetPosition(max) { throw new Error("setPosition method shoud be implemented", max) }
     PublicGetRandom(min, max) {
         let x = Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min);
         let y = Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min);
@@ -25,9 +24,9 @@ class Snake extends Cell {
     setDirection(direction) { this.#privateDirection = direction }
 
     // логика первичного позиционирования змейки  
-    PublicSetPosition() {
+    PublicSetPosition(max) {
         // генерация 2х координат в диапазоне от 0 до 9
-        let position = this.PublicGetRandom(0, 9)
+        let position = this.PublicGetRandom(0, max - 1)
 
         // определение координат тела змейки относительно головы
         this.#privateBody.push(position)
@@ -49,17 +48,31 @@ class Snake extends Cell {
     }
 
     // логика перемещения змейки (изменения координат головы змейки относительно заданного направления)    
-    PublicMoving() {
+    PublicMoving(val) {
         var arrCheck = JSON.parse(JSON.stringify(this.#privateBody));
+
+
         for (const key in this.#privateBody) {
-            if (key == 0) {
-                switch (this.#privateDirection) {
-                    case 'ArrowUp': this.#privateBody[key].y == 9 ? this.#privateBody[key].y = 0 : this.#privateBody[key].y++; break;
-                    case 'ArrowDown': this.#privateBody[key].y == 0 ? this.#privateBody[key].y = 9 : this.#privateBody[key].y--; break;
-                    case 'ArrowLeft': this.#privateBody[key].x == 0 ? this.#privateBody[key].x = 9 : this.#privateBody[key].x--; break;
-                    case 'ArrowRight': this.#privateBody[key].x == 9 ? this.#privateBody[key].x = 0 : this.#privateBody[key].x++; break;
+            if (val === 14) {
+                if (key == 0) {
+                    switch (this.#privateDirection) {
+                        case 'ArrowUp': this.#privateBody[key].y++; break;
+                        case 'ArrowDown': this.#privateBody[key].y--; break;
+                        case 'ArrowLeft': this.#privateBody[key].x--; break;
+                        case 'ArrowRight': this.#privateBody[key].x++; break;
+                    }
+                    continue
                 }
-                continue
+            } else {
+                if (key == 0) {
+                    switch (this.#privateDirection) {
+                        case 'ArrowUp': this.#privateBody[key].y == val ? this.#privateBody[key].y = 0 : this.#privateBody[key].y++; break;
+                        case 'ArrowDown': this.#privateBody[key].y == 0 ? this.#privateBody[key].y = val : this.#privateBody[key].y--; break;
+                        case 'ArrowLeft': this.#privateBody[key].x == 0 ? this.#privateBody[key].x = val : this.#privateBody[key].x--; break;
+                        case 'ArrowRight': this.#privateBody[key].x == val ? this.#privateBody[key].x = 0 : this.#privateBody[key].x++; break;
+                    }
+                    continue
+                }
             }
             let v = this.#privateBody[key]
             this.#privateBody[key] = arrCheck[0]
@@ -84,7 +97,18 @@ class Apple extends Cell {
     setBody(body) { this.#privateBody = body }
 
     // логика позиционирования яблока  
-    PublicSetPosition() { this.#privateBody = [this.PublicGetRandom(0, 10)] }
+    PublicSetPosition(max) { this.#privateBody = [this.PublicGetRandom(0, max)] }
+}
+
+
+class GameFiled {
+    #privateSize
+    constructor() {
+        this.#privateSize
+    }
+    // размер игрового поля
+    setPrivateSize(val) { this.#privateSize = val }
+    getPrivateSize() { return this.#privateSize }
 }
 
 // класс для работы с DOM
@@ -94,6 +118,7 @@ class DOMControl {
     #privateTopResultField
     #privateGameField
     #privateStartBtn
+    #privateRedBorder
     #privateMenu
     constructor() {
         //Поиск элементов в DOM
@@ -101,6 +126,7 @@ class DOMControl {
         this.#privateTopResultField // блок с лучшим результатом
         this.#privateGameField
         this.#privateStartBtn // блок с кнопкой
+        this.#privateRedBorder
         this.#privateMenu
     }
 
@@ -109,6 +135,8 @@ class DOMControl {
     setGameField() { this.#privateGameField = document.querySelector(".j-game-field") }
     setStartBtn() { this.#privateStartBtn = document.querySelectorAll(".j-click-start") }
     setMenu() { this.#privateMenu = document.querySelector(".menu") }
+    setRedBorder() { this.#privateRedBorder = document.querySelector(".wrapper__grid") }
+
 
     // Вешаю обработчик на кнопку старт
     InitStartBtn(callback) { this.#privateStartBtn.forEach(btn => btn.addEventListener('click', callback)) }
@@ -118,6 +146,7 @@ class DOMControl {
 
     // Вешаю обработчик на клавиши (up down left right)
     InitKey(ev, callback) { this.#privateStartBtn.forEach(btn => { btn.addEventListener(ev, callback) }) }
+
 
     // Метод для отображения переданного игрового элемента
     Display(elements, className) {
@@ -137,6 +166,40 @@ class DOMControl {
     // отображение результата
     DisplayCurrentResult(v) { this.#privateCurrentResultField.innerHTML = `now: ${v}` }
     DisplayTopResult(v) { this.#privateTopResultField.innerHTML = `top: ${v}` }
+
+
+    DisplayRedBorder() {
+        this.#privateRedBorder.classList.add("m-red-border")
+    }
+    RemoveRedBorder() {
+        this.#privateGameField.classList.remove("j-grid-easy")
+        this.#privateGameField.classList.remove("j-grid-medium")
+        this.#privateGameField.classList.remove("j-grid-hard")
+        this.#privateRedBorder.classList.remove("m-red-border")
+    }
+
+    CheckRedBorder() { return this.#privateRedBorder.classList.contains("m-red-border") }
+
+
+
+    DisplayGameField(className, v) {
+        console.log(v);
+        this.#privateGameField.querySelectorAll(".item").forEach(item => { item.remove() })
+
+        let x = 0
+        let y = v - 1
+        for (let index = 0; index < v; index++) {
+            for (let i = 0; i < v; i++) {
+                this.#privateGameField.innerHTML += `<li class="item " data-x="${x}" data-y="${y}"></li>`
+                x++
+            }
+            x = 0
+            y--
+        }
+
+        this.#privateGameField.classList.add(className);
+
+    }
 }
 
 
@@ -148,6 +211,8 @@ class GameControl {
     #privateApple
     #privateSnake
     #privateTopPoint
+    #privateGameField
+    #gameTimeInterval
     #privateCurrentPoint
 
     constructor() {
@@ -155,12 +220,16 @@ class GameControl {
         this.#privateApple
         this.#privateSnake
         this.#privateTopPoint
+        this.#privateGameField
+        this.#gameTimeInterval
         this.#privateCurrentPoint
     }
 
     setPrivateDOM(dom) { this.#privateDOM = dom; }
     setPrivateSnake(snake) { this.#privateSnake = snake; }
     setPrivateApple(apple) { this.#privateApple = apple; }
+    setPrivatePrivateGameField(field) { this.#privateGameField = field; }
+
 
     // запуск игры
     PublicStart() {
@@ -170,8 +239,40 @@ class GameControl {
         this.#privateDOM.DisplayTopResult(this.#privateTopPoint)
 
         let callback = () => {
+            this.#privateDOM.setRedBorder()
+            this.#privateDOM.RemoveRedBorder()
+
             // меняю стиль первой кнопки в меню
             this.#privateDOM.ControlMenu("m-color-green", "m-color-yellow", "stop game")
+
+
+            //определяю уровень сложности игры
+            var ele = document.getElementsByName('level');
+            for (let i = 0; i < ele.length; i++) {
+                if (ele[i].checked) {
+                    switch (ele[i].value) {
+                        case "easy":
+                            this.#privateGameField.setPrivateSize(10)
+                            this.#privateDOM.DisplayGameField("j-grid-easy", 10)
+                            this.#gameTimeInterval = 500
+                            break;
+                        case "medium":
+                            this.#privateGameField.setPrivateSize(12)
+                            this.#privateDOM.DisplayGameField("j-grid-medium", 12)
+                            this.#gameTimeInterval = 250
+                            break;
+                        case "hard":
+                            this.#privateGameField.setPrivateSize(15)
+                            this.#privateDOM.DisplayGameField("j-grid-hard", 15)
+                            this.#gameTimeInterval = 100
+                            this.#privateDOM.DisplayRedBorder()
+                            break;
+                    }
+                }
+
+
+            }
+
 
             this.#privateCurrentPoint = 0
             this.#privateLoadPoints()
@@ -182,8 +283,8 @@ class GameControl {
             this.#privateSnake.setBody([])
             this.#privateApple.setBody([])
 
-            this.#privateSnake.PublicSetPosition() // позиционирую змейку  
-            this.#privateApple.PublicSetPosition() // позиционирую яблоко 
+            this.#privateSnake.PublicSetPosition(this.#privateGameField.getPrivateSize()) // позиционирую змейку  
+            this.#privateApple.PublicSetPosition(this.#privateGameField.getPrivateSize()) // позиционирую яблоко 
 
             // определяю координаты (коорд яблока не должны совпасть с коорд змейки)
             for (; ;) { if (this.#privateCheckPosition()) { break } }
@@ -191,9 +292,10 @@ class GameControl {
             this.#privateDOM.Display(this.#privateSnake.getBody(), "j-snake-active")
             this.#privateDOM.Display(this.#privateApple.getBody(), "j-apple-active")
             // запускаю змейку
-            this.#privateInitSnakeAutoMoving(500, callback)
+            this.#privateInitSnakeAutoMoving(this.#gameTimeInterval, callback)
             // удаляю обработчик с кнопки запуска и игрового поля (в процессе игры повторный запуск не допускается)
             this.#privateDOM.RemoveStartBtn(callback)
+
             // !!!!!!!!! повесить обработчик остановки змейки !!!!!!!!!
         }
 
@@ -215,7 +317,7 @@ class GameControl {
     #privateCheckPosition() {
         for (const key in this.#privateSnake.getBody()) {
             if (JSON.stringify(this.#privateSnake.getBody()[key]) === JSON.stringify(this.#privateApple.getBody()[0])) {
-                this.#privateApple.PublicSetPosition() // повторно позиционирую яблоко если совпали координаты со змейкой
+                this.#privateApple.PublicSetPosition(this.#privateGameField.getPrivateSize()) // повторно позиционирую яблоко если совпали координаты со змейкой
                 return false
             }
         }
@@ -225,10 +327,24 @@ class GameControl {
     // определяю основную логику игры и движения змейки
     #privateInitSnakeAutoMoving(interval, callback) {
         let stop = setInterval(() => {
-            this.#privateSnake.PublicMoving();
+            this.#privateSnake.PublicMoving(this.#privateGameField.getPrivateSize() - 1);
+
+
+            if (this.#privateDOM.CheckRedBorder()) {
+                // выход за пределы игрового поля
+                if (this.#privateSnake.getBody()[0].x > this.#privateGameField.getPrivateSize() || this.#privateSnake.getBody()[0].x < 0 || this.#privateSnake.getBody()[0].y > this.#privateGameField.getPrivateSize() || this.#privateSnake.getBody()[0].y < 0) {
+                    clearInterval(stop)
+                    // передаю логику обработчика на событие click кнопки
+                    this.#privateDOM.InitStartBtn(callback)
+                    this.#privateDOM.ControlMenu("m-color-yellow", "m-color-green", "new game")
+                    this.#privateCurrentPoint > this.#privateTopPoint ? this.#privateSavePoints(this.#privateCurrentPoint) : console.log();
+                    console.log("finish GAME");
+                }
+            }
+
             // координаты змейки и яблока совпали - у яблока новая позиция - счетчик очков увеличиавется
             if (this.#privateSnake.getBody()[0].x == this.#privateApple.getBody()[0].x && this.#privateSnake.getBody()[0].y == this.#privateApple.getBody()[0].y) {
-                this.#privateApple.PublicSetPosition() // позиционирую яблоко 
+                this.#privateApple.PublicSetPosition(this.#privateGameField.getPrivateSize()) // позиционирую яблоко 
                 for (; ;) { if (this.#privateCheckPosition()) { break } }
                 this.#privateCurrentPoint++
                 this.#privateDOM.DisplayCurrentResult(this.#privateCurrentPoint)
@@ -265,13 +381,16 @@ class GameControl {
 // InitGame реализует функционал игры
 function InitGame() {
 
-    
+    // Инициализация управляющего обьекта
     const domControl = new DOMControl()
     domControl.setCurrentResultField()
     domControl.setTopResultField()
     domControl.setGameField()
     domControl.setStartBtn()
     domControl.setMenu()
+
+    const gameField = new GameFiled()
+    gameField.setPrivateSize(10)
 
     const apple = new Apple()
     const snake = new Snake()
@@ -280,6 +399,7 @@ function InitGame() {
     const game = new GameControl()
 
     // передаю основные обьекты игры
+    game.setPrivatePrivateGameField(gameField)
     game.setPrivateDOM(domControl)
     game.setPrivateApple(apple)
     game.setPrivateSnake(snake)

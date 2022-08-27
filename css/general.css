@@ -15,7 +15,9 @@
     height: 100px;
 }
 
+
 .mod-button {
+    position: relative;
     text-transform: uppercase;
     line-height: 1;
     font-weight: normal;
@@ -67,87 +69,17 @@
 
 /* main block */
 .wrapper__grid {
-    background: linear-gradient(45deg, #0a93f4 0%, #e1d4e7 60%);
+    background: linear-gradient(90deg, #ff1b69, #ff0, #2196f3, #9c27b0, #ff1b69);
     box-shadow: 1px 1px 28px -12px rgba(186, 50, 251, 0.68);
     border-radius: 8px;
 }
 
 .item {
     background-color: #1f1729;
-}
-
-
-
-.wrapper__color {}
-
-.wrapper__gradient {
-    background-image: linear-gradient(45deg, #960bff 0%, #30b1ed 60%);
-    height: 50px;
-    width: 200px;
-    margin-top: 8px;
-    position: relative;
-    background-position: left bottom;
-    background-size: 150% 100%;
-    transition: background 500ms, outline 500ms;
-    background-position: top left;
-    outline: transparent;
-    border-radius: 8px;
-}
-
-.box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-
-.j-apple-active {
-    background-color: red;
+    border-radius: 3px;
 
 }
 
-.j-snake-active {
-    background-color: rgb(47, 255, 175);
-
-}
-
-.diamond {
-    color: aliceblue;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-
-    padding: 8px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid #372e2e;
-    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
-    background-image: linear-gradient(to top left, #50403f 0%, rgba(62, 45, 45, 0.437) 100%);
-    text-align: center;
-    transform-origin: center;
-    transition: box-shadow 250ms, transform 250ms;
-
-
-}
-
-.wrapper__gradient:hover,
-.wrapper__gradient:focus {
-    background-position: top right;
-}
-
-.button__items {}
-
-.button__item {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    text-transform: uppercase;
-    padding: 0px 5px;
-    /* color: #292222; */
-
-}
 
 
 
@@ -173,16 +105,24 @@
 
 
 .tooltip {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+
     position: absolute;
     z-index: 1;
-    padding: 0.45rem 3rem;
+    padding: 0.45rem 8px;
     border-radius: 5px;
     background: #29343d;
     opacity: 0;
     color: #cedfe9;
-    font-size: 0.875rem;
+    /* font-size: 0.875rem; */
+    /* right: 0px; */
     transition: opacity 500ms, transform 500ms;
 }
+
 
 
 .tooltip:before {
@@ -203,4 +143,71 @@
 
     opacity: 1;
     transform: translateY(15px);
+
+}
+
+
+
+
+/* для элемента input c type="radio" */
+.custom-radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+/* для элемента label связанного с .custom-radio */
+.custom-radio+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+
+/* создание в label псевдоэлемента  before со следующими стилями */
+.custom-radio+label::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid #adb5bd;
+    border-radius: 50%;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+}
+
+/* стили при наведении курсора на радио */
+.custom-radio:not(:disabled):not(:checked)+label:hover::before {
+    border-color: #b3d7ff;
+}
+
+/* стили для активной радиокнопки (при нажатии на неё) */
+.custom-radio:not(:disabled):active+label::before {
+    background-color: #b3d7ff;
+    border-color: #b3d7ff;
+}
+
+/* стили для радиокнопки, находящейся в фокусе */
+.custom-radio:focus+label::before {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* стили для радиокнопки, находящейся в фокусе и не находящейся в состоянии checked */
+.custom-radio:focus:not(:checked)+label::before {
+    border-color: #80bdff;
+}
+
+/* стили для радиокнопки, находящейся в состоянии checked */
+.custom-radio:checked+label::before {
+    border-color: #0b76ef;
+    background-color: #0b76ef;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+/* стили для радиокнопки, находящейся в состоянии disabled */
+.custom-radio:disabled+label::before {
+    background-color: #e9ecef;
 }
